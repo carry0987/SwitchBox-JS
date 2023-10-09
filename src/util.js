@@ -15,9 +15,8 @@ const Util = {
         return item && typeof item === 'object' && !Array.isArray(item);
     },
     deepMerge(target, ...sources) {
-        if (!sources.length) return target;
         const source = sources.shift();
-
+        if (!source) return target;
         if (Util.isObject(target) && Util.isObject(source)) {
             for (const key in source) {
                 if (Util.isObject(source[key])) {
@@ -46,10 +45,8 @@ const Util = {
     },
     buildRules(ruleObject) {
         let ruleSet = '';
-        for (let property in ruleObject) {
-            if (ruleObject.hasOwnProperty(property)) {
-                ruleSet += property + ':' + ruleObject[property] + ';';
-            }
+        for (let [property, value] of Object.entries(ruleObject)) {
+            ruleSet += `${property}:${value};`;
         }
         return ruleSet;
     },
@@ -75,6 +72,9 @@ const Util = {
         </div>
         `;
         return template;
+    },
+    getChecked: function() {
+        return this.ele.checked;
     }
 };
 

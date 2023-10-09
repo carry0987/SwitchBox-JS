@@ -7,6 +7,9 @@ class SwitchBox {
     constructor(elem, option = {}) {
         if (!(this instanceof SwitchBox)) return new SwitchBox(elem, option);
         this.init(elem, option, SwitchBox.instance.length);
+        this.onChecked = (e) => {if (this.option.onChecked) this.option.onChecked(e)};
+        this.onUnchecked = (e) => {if (this.option.onUnchecked) this.option.onUnchecked(e)};
+        this.onToggled = (e) => {if (this.option.onToggled) this.option.onToggled(e)};
         SwitchBox.instance.push(this);
 
         if (SwitchBox.instance.length === 1) reportInfo('SwitchBox is loaded, version:' + SwitchBox.version);
@@ -56,9 +59,11 @@ class SwitchBox {
         }
         // Reselect new switch
         this.ele = Util.getElem(elem);
-        this.ele.addEventListener('click', (e) => {
+        this.ele.addEventListener('change', (e) => {
             const isChecked = e.target.checked;
-            e.target.setAttribute('checked', isChecked);
+            e.target.setAttribute('checked', isChecked ? 'checked' : '');
+            this.onToggled(e, isChecked);
+            isChecked ? this.onChecked(e) : this.onUnchecked(e);
         });
 
         return this;
@@ -75,7 +80,7 @@ class SwitchBox {
     }
 }
 
-SwitchBox.version = '1.0.0';
+SwitchBox.version = '1.1.0';
 SwitchBox.instance = [];
 SwitchBox.defaultOption = {
     title: null,

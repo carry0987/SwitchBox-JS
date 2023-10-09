@@ -18,6 +18,10 @@
         title: 'Switch 1',
         checked: true
     });
+    switchBox1.onToggled = function(e) {
+        console.log(e.target.checked)
+    };
+    console.log(switchBox1);
     let switchBox2 = new SwitchBox('input[name="switch-2"]', {
         title: 'Switch 2',
         checked: false
