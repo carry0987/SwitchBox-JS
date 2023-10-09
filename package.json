@@ -5,9 +5,13 @@
   "main": "dist/switchBox.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist/ && webpack"
+    "watch": "webpack --mode development --watch",
+    "start": "webpack --mode development",
+    "deploy": "webpack --mode production"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/carry0987/SwitchBox-JS.git"
@@ -23,10 +27,7 @@
   },
   "homepage": "https://github.com/carry0987/SwitchBox-JS#readme",
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^8.2.2",
-    "babel-preset-env": "^1.7.0",
-    "webpack": "^5.53.0",
-    "webpack-cli": "^4.8.0"
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   }
 }

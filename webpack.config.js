@@ -2,26 +2,13 @@ const path = require('path');
 
 module.exports = {
     mode: 'production',
-    entry: './src/switchBox.js',
+    context: path.resolve(__dirname, 'src'),
+    entry: {switchBox: './switchBox.js'},
     output: {
-        filename: 'switchbBox.bundle.js',
+        filename: '[name].min.js',
         path: path.resolve(__dirname, 'dist'),
         library: 'SwitchBox',
         libraryTarget: 'umd',
         globalObject: 'this'
-    },
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /(node_modules)/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
-                }
-            }
-        ]
     }
 };
