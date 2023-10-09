@@ -8,4 +8,4 @@ let reportInfo = function(vars, showType = false) {
     }
 };
 
-module.exports = reportInfo;
+export default reportInfo;
