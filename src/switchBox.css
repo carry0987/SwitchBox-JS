@@ -1,0 +1,119 @@
+/* Switch */
+.switch,
+.switch-style,
+.switch-style:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.switch-box {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.switch {
+    display: inline-block;
+    font-size: 100%;
+    height: 1.6em;
+    position: relative;
+    vertical-align: middle;
+}
+
+.switch .switch-style {
+    height: 1.65em;
+    left: 0;
+    background: #C0CCDA;
+    -webkit-border-radius: 0.8em;
+    border-radius: 0.8em;
+    display: inline-block;
+    position: relative;
+    top: 0;
+    -webkit-transition: all 0.15s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    transition: all 0.15s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    width: 3.125em;
+    cursor: pointer;
+}
+
+.switch .switch-style:before {
+    display: block;
+    content: '';
+    height: 1.4em;
+    position: absolute;
+    width: 1.4em;
+    background-color: #fff;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    left: 0.125em;
+    top: 0.125em;
+    -webkit-transition: all 0.15s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    transition: all 0.15s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+.switch-title {
+    margin-left: 0.25em;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1.25em;
+    font-size: 1.25em;
+    text-transform: capitalize;
+}
+
+.switch>input[type="checkbox"] {
+    display: none;
+}
+
+.switch>input[type="checkbox"][disabled]+.switch-style {
+    cursor: not-allowed;
+    background-color: #c0c3c6;
+}
+
+.switch>input[type="checkbox"][disabled]+.switch-style:before {
+    background-color: #f3f3f3;
+}
+
+.switch>input[type="checkbox"]:checked+.switch-style {
+    background-color: #20a0ff;
+}
+
+.switch>input[type="checkbox"]:checked+.switch-style:before {
+    left: 50%;
+}
+
+.switch>input[type="checkbox"]:checked[disabled]+.switch-style {
+    background-color: #b0d7f5;
+}
+
+.switch.switch-blue>input[type="checkbox"]:checked+.switch-style {
+    background-color: #20a0ff;
+}
+
+.switch.switch-blue>input[type="checkbox"]:checked[disabled]+.switch-style {
+    background-color: #b0d7f5;
+}
+
+.switch.switch-green>input[type="checkbox"]:checked+.switch-style {
+    background-color: #13ce66;
+}
+
+.switch.switch-green>input[type="checkbox"]:checked[disabled]+.switch-style {
+    background-color: #a1efc4;
+}
+
+.switch.switch-red>input[type="checkbox"]:checked+.switch-style {
+    background-color: #ff4949;
+}
+
+.switch.switch-red>input[type="checkbox"]:checked[disabled]+.switch-style {
+    background-color: #f9b3b3;
+}
+
+.switch.switch-yellow>input[type="checkbox"]:checked+.switch-style {
+    background-color: #f7ba2a;
+}
+
+.switch.switch-yellow>input[type="checkbox"]:checked[disabled]+.switch-style {
+    background-color: #fbeac1;
+}
