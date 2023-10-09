@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <link href="../dist/switchBox.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <h1>Test</h1>
+        <input type="checkbox" name="switch-1">
+        <input type="checkbox" name="switch-2">
+    </div>
+    <script src="../dist/switchBox.min.js"></script>
+    <script type="text/javascript">
+    let switchBox1 = new SwitchBox('input[name="switch-1"]', {
+        title: 'Switch 1',
+        checked: true
+    });
+    let switchBox2 = new SwitchBox('input[name="switch-2"]', {
+        title: 'Switch 2',
+        checked: false
+    });
+    </script>
+</body>
+</html>
