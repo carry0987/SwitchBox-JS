@@ -1,0 +1,32 @@
+{
+  "name": "@carry0987/switch-box",
+  "version": "1.0.0",
+  "description": "A library for create switcher via checkbox",
+  "main": "dist/switchBox.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist/ && webpack"
+  },
+  "files": ["dist"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carry0987/SwitchBox-JS.git"
+  },
+  "keywords": [
+    "switch",
+    "checkbox"
+  ],
+  "author": "carry0987",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/carry0987/SwitchBox-JS/issues"
+  },
+  "homepage": "https://github.com/carry0987/SwitchBox-JS#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.2.2",
+    "babel-preset-env": "^1.7.0",
+    "webpack": "^5.53.0",
+    "webpack-cli": "^4.8.0"
+  }
+}

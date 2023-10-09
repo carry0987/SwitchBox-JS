@@ -1,2 +1,2 @@
 # SwitchBox-JS
-A library for create switcher via checkbox
+A JS library for create switcher via checkbox
