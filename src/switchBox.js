@@ -7,9 +7,6 @@ class SwitchBox {
     constructor(elem, option = {}) {
         if (!(this instanceof SwitchBox)) return new SwitchBox(elem, option);
         this.init(elem, option, SwitchBox.instance.length);
-        this.onChecked = (e) => {if (this.option.onChecked) this.option.onChecked(e)};
-        this.onUnchecked = (e) => {if (this.option.onUnchecked) this.option.onUnchecked(e)};
-        this.onToggled = (e) => {if (this.option.onToggled) this.option.onToggled(e)};
         SwitchBox.instance.push(this);
 
         if (SwitchBox.instance.length === 1) reportInfo('SwitchBox is loaded, version:' + SwitchBox.version);
@@ -41,6 +38,11 @@ class SwitchBox {
             let styles = Util.deepMerge({}, this.option.styles);
             Util.injectStylesheet(styles, id);
         }
+
+        // Handle Event Listener
+        this.onChecked = (e) => {if (this.option.onChecked) this.option.onChecked(e)};
+        this.onUnchecked = (e) => {if (this.option.onUnchecked) this.option.onUnchecked(e)};
+        this.onToggled = (e) => {if (this.option.onToggled) this.option.onToggled(e)};
 
         // Insert switch box
         let template = Util.getTemplate(id, this.option.theme);
@@ -80,7 +82,7 @@ class SwitchBox {
     }
 }
 
-SwitchBox.version = '1.1.0';
+SwitchBox.version = '1.1.1';
 SwitchBox.instance = [];
 SwitchBox.defaultOption = {
     title: null,
