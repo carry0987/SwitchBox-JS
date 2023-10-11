@@ -54,13 +54,16 @@ const Util = {
         let modifiedSelector = selector.replace('.switch-box', '.switch-box-' + id);
         stylesheet.insertRule(modifiedSelector + '{' + cssText + '}', 0);
     },
-    removeStylesheet: function(id) {
+    removeStylesheet(id) {
         let styleElement = Util.getElem('#switchbox-style' + id);
         if (styleElement) {
             styleElement.parentNode.removeChild(styleElement);
         }
     },
-    getTemplate: function(id, theme) {
+    createUniqueID(length = 8) {
+        return Math.random().toString(36).substring(2, 2 + length);
+    },
+    getTemplate(id, theme) {
         let template = `
         <div class="switch-box switch-box-${id}">
             <label class="switch switch-${theme}">
@@ -73,7 +76,7 @@ const Util = {
         `;
         return template;
     },
-    getChecked: function() {
+    getChecked() {
         return this.ele.checked;
     }
 };

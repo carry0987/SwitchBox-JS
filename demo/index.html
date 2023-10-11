@@ -8,9 +8,16 @@
 </head>
 <body>
     <div id="app">
-        <h1>Test</h1>
+        <h1>Individual Input</h1>
         <input type="checkbox" name="switch-1">
         <input type="checkbox" name="switch-2">
+    </div>
+    <hr>
+    <div id="app-2">
+        <h1>Grouped Input</h1>
+        <input type="checkbox" name="switch-3" title="switch-3">
+        <input type="checkbox" name="switch-4">
+        <label data-switch-for="switch-4">Switch-4</label>
     </div>
     <script src="../dist/switchBox.min.js"></script>
     <script type="text/javascript">
@@ -21,11 +28,17 @@
     switchBox1.onToggled = function(e) {
         console.log(e.target.checked)
     };
-    console.log(switchBox1);
+    // console.log(switchBox1);
     let switchBox2 = new SwitchBox('input[name="switch-2"]', {
         title: 'Switch 2',
         checked: false
     });
+    let switchBox3 = new SwitchBox('#app-2 input', {
+        checked: ['switch-3', 'switch-4']
+    });
+    switchBox3.onToggled = function(e) {
+        console.log(e.target.checked)
+    };
     </script>
 </body>
 </html>

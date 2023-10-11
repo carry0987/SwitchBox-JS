@@ -61,6 +61,17 @@
     text-transform: capitalize;
 }
 
+.switch-title.switch-box-labeled {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.switch-title.switch-box-labeled:hover {
+    cursor: pointer;
+}
+
 .switch>input[type="checkbox"] {
     display: none;
 }

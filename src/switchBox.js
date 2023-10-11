@@ -16,56 +16,91 @@ class SwitchBox {
      * Initializes the plugin
      */
     init(elem, option, id) {
-        let ele = Util.getElem(elem);
-        if (!ele) throwError('Element not found');
-        if (ele.type !== 'checkbox') throwError('Element must be checkbox');
-        if (ele.hasAttribute('data-switchbox')) return this;
-        ele.setAttribute('data-switchbox', 'true');
-        this.ele = ele;
+        let element = Util.getElem(elem, 'all');
+        if (element.length < 1) throwError('Elements not found');
+        this.element = element;
         this.id = id;
         this.option = Util.deepMerge({}, SwitchBox.defaultOption, option);
-        if (this.ele.checked) {
-            this.ele.setAttribute('checked', 'checked');
-        } else {
-            if (this.option.checked) {
-                this.ele.checked = true;
-                this.ele.setAttribute('checked', 'checked');
-            }
-        }
-
         // Inject stylesheet
         if (this.option?.styles && Object.keys(this.option.styles).length > 0) {
             let styles = Util.deepMerge({}, this.option.styles);
             Util.injectStylesheet(styles, id);
         }
-
         // Handle Event Listener
         this.onChecked = (e) => {if (this.option.onChecked) this.option.onChecked(e)};
         this.onUnchecked = (e) => {if (this.option.onUnchecked) this.option.onUnchecked(e)};
         this.onToggled = (e) => {if (this.option.onToggled) this.option.onToggled(e)};
+        // Handle switch box
+        element.forEach((ele, index) => {
+            if (ele.type !== 'checkbox') throwError('Element must be checkbox');
+            if (ele.hasAttribute('data-switchbox')) return;
+            ele.setAttribute('data-switchbox', 'true');
 
-        // Insert switch box
-        let template = Util.getTemplate(id, this.option.theme);
-        let templateNode = document.createElement('div');
-        templateNode.innerHTML = template.trim();
-        let labelNode = Util.getElem('label', templateNode);
-        labelNode.insertBefore(this.ele.cloneNode(true), labelNode.firstChild);
-        this.ele.parentNode.replaceChild(templateNode.firstChild, this.ele);
-        // Handle switch title
-        let switchTitleNode = Util.getElem(`div.switch-box-${id} .switch-title`);
-        if (this.option.title === null) {
-            switchTitleNode.parentNode.removeChild(switchTitleNode);
-        } else {
-            let switchTitleSpan = Util.getElem('span', switchTitleNode);
-            switchTitleSpan.textContent = this.option.title;
-        }
-        // Reselect new switch
-        this.ele = Util.getElem(elem);
-        this.ele.addEventListener('change', (e) => {
-            const isChecked = e.target.checked;
-            e.target.setAttribute('checked', isChecked ? 'checked' : '');
-            this.onToggled(e, isChecked);
-            isChecked ? this.onChecked(e) : this.onUnchecked(e);
+            // Handle switch title
+            let labelSibling = ele.nextElementSibling;
+            let title = null;
+            if (labelSibling && labelSibling.tagName === 'LABEL' && labelSibling.dataset.switchFor === ele.name) {
+                title = labelSibling.textContent;
+                labelSibling.parentNode.removeChild(labelSibling);
+            }
+            if (title === null) {
+                title = ele.getAttribute('title') ? ele.getAttribute('title') : this.option.title;
+            }
+
+            // Handle switch checked
+            if (ele.checked) {
+                ele.setAttribute('checked', 'checked');
+            } else {
+                if (this.option.checked) {
+                    if (typeof this.option.checked === 'boolean' && element.length === 1) {
+                        ele.checked = true;
+                        ele.setAttribute('checked', 'checked');
+                    }
+                    if (typeof this.option.checked === 'string') {
+                        this.option.checked = [this.option.checked];
+                    }
+                    if (Array.isArray(this.option.checked)) {
+                        if (this.option.checked.includes(ele.name)) {
+                            ele.checked = true;
+                            ele.setAttribute('checked', 'checked');
+                        }
+                    }
+                }
+            }
+
+            // Insert switch box
+            const uuid = Util.createUniqueID(6);
+            let template = Util.getTemplate(uuid, this.option.theme);
+            let templateNode = document.createElement('div');
+            templateNode.innerHTML = template.trim();
+            let labelNode = Util.getElem('label', templateNode);
+            let cloneEle = ele.cloneNode(true);
+            labelNode.insertBefore(cloneEle, labelNode.firstChild);
+            ele.parentNode.replaceChild(templateNode.firstElementChild, ele);
+
+            // Insert switch title
+            let switchTitleNode = Util.getElem(`div.switch-box-${uuid} .switch-title`);
+            if (title === null) {
+                switchTitleNode.parentNode.removeChild(switchTitleNode);
+            } else {
+                let switchTitleSpan = Util.getElem('span', switchTitleNode);
+                switchTitleSpan.textContent = title;
+                if (this.option.labeled) {
+                    switchTitleNode.classList.add('switch-box-labeled');
+                    switchTitleNode.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        cloneEle.click();
+                    });
+                }
+            }
+
+            // Reselect new switch
+            cloneEle.addEventListener('change', (e) => {
+                const isChecked = e.target.checked;
+                e.target.setAttribute('checked', isChecked ? 'checked' : '');
+                this.onToggled(e);
+                isChecked ? this.onChecked(e) : this.onUnchecked(e);
+            });
         });
 
         return this;
@@ -75,17 +110,27 @@ class SwitchBox {
      * Destroys the plugin
      */
     destroy() {
-        this.ele.parentNode.removeChild(this.ele);
+        this.element.forEach((ele, index) => {
+            ele.removeAttribute('data-switchbox');
+            ele.removeAttribute('checked');
+            ele.removeEventListener('change', this.onChecked);
+            ele.removeEventListener('change', this.onUnchecked);
+            ele.removeEventListener('change', this.onToggled);
+            let switchBoxNode = ele.parentNode;
+            switchBoxNode.parentNode.replaceChild(ele, switchBoxNode);
+        });
         Util.removeStylesheet(this.id);
         SwitchBox.instance.splice(this.id, 1);
+
         return this;
     }
 }
 
-SwitchBox.version = '1.1.1';
+SwitchBox.version = '1.2.0';
 SwitchBox.instance = [];
 SwitchBox.defaultOption = {
     title: null,
+    labeled: true,
     checked: false,
     styles: {},
     theme: 'blue'
