@@ -26,7 +26,7 @@
         checked: true
     });
     switchBox1.onToggled = function(e) {
-        console.log(e.target.checked)
+        console.log(e.target.checked);
     };
     // console.log(switchBox1);
     let switchBox2 = new SwitchBox('input[name="switch-2"]', {
@@ -36,8 +36,9 @@
     let switchBox3 = new SwitchBox('#app-2 input', {
         checked: ['switch-3', 'switch-4']
     });
-    switchBox3.onToggled = function(e) {
-        console.log(e.target.checked)
+    switchBox3.onToggled = function(e, ele) {
+        console.log(e.target.checked);
+        console.log(ele);
     };
     </script>
 </body>

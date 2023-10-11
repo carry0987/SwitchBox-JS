@@ -27,9 +27,9 @@ class SwitchBox {
             Util.injectStylesheet(styles, id);
         }
         // Handle Event Listener
-        this.onChecked = (e) => {if (this.option.onChecked) this.option.onChecked(e)};
-        this.onUnchecked = (e) => {if (this.option.onUnchecked) this.option.onUnchecked(e)};
-        this.onToggled = (e) => {if (this.option.onToggled) this.option.onToggled(e)};
+        this.onChecked = (e, target) => {if (this.option.onChecked) this.option.onChecked(e, target)};
+        this.onUnchecked = (e, target) => {if (this.option.onUnchecked) this.option.onUnchecked(e, target)};
+        this.onToggled = (e, target) => {if (this.option.onToggled) this.option.onToggled(e, target)};
         // Handle switch box
         element.forEach((ele, index) => {
             if (ele.type !== 'checkbox') throwError('Element must be checkbox');
@@ -98,8 +98,8 @@ class SwitchBox {
             cloneEle.addEventListener('change', (e) => {
                 const isChecked = e.target.checked;
                 e.target.setAttribute('checked', isChecked ? 'checked' : '');
-                this.onToggled(e);
-                isChecked ? this.onChecked(e) : this.onUnchecked(e);
+                this.onToggled(e, e.target);
+                isChecked ? this.onChecked(e, e.target) : this.onUnchecked(e, e.target);
             });
         });
 
@@ -126,7 +126,7 @@ class SwitchBox {
     }
 }
 
-SwitchBox.version = '1.2.0';
+SwitchBox.version = '1.2.1';
 SwitchBox.instance = [];
 SwitchBox.defaultOption = {
     title: null,
