@@ -18,7 +18,7 @@
         <input type="checkbox" name="switch-3" title="switch-3">
         <input type="checkbox" name="switch-4">
         <label data-switch-for="switch-4">Switch-4</label>
-        <input type="checkbox" id="switch-5">
+        <input type="checkbox" id="switch-5" value="1">
         <label data-switch-for="switch-5">Switch-5</label>
         <input type="checkbox" id="switch-6">
         <label for="switch-6">Switch-6</label>
@@ -39,7 +39,8 @@
     });
     let switchBox3 = new SwitchBox('#app-2 input', {
         labeled: false,
-        checked: ['switch-3', 'switch-5']
+        checked: ['switch-3'],
+        checkedByValue: [1, '1']
     });
     switchBox3.onToggled = function(e, ele) {
         console.log(e.target.checked);

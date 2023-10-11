@@ -70,6 +70,14 @@ class SwitchBox {
             if (ele.checked) {
                 ele.setAttribute('checked', 'checked');
             } else {
+                if (this.option.checkedByValue) {
+                    if (Array.isArray(this.option.checkedByValue)) {
+                        if (this.option.checkedByValue.includes(ele.value)) {
+                            ele.checked = true;
+                            ele.setAttribute('checked', 'checked');
+                        }
+                    }
+                }
                 if (this.option.checked) {
                     if (typeof this.option.checked === 'boolean' && element.length === 1) {
                         ele.checked = true;
@@ -145,12 +153,13 @@ class SwitchBox {
     }
 }
 
-SwitchBox.version = '1.2.2';
+SwitchBox.version = '1.2.5';
 SwitchBox.instance = [];
 SwitchBox.defaultOption = {
     title: null,
     labeled: true,
     checked: false,
+    checkedByValue: false,
     styles: {},
     theme: 'blue'
 };
