@@ -60,6 +60,9 @@ const Util = {
             styleElement.parentNode.removeChild(styleElement);
         }
     },
+    isEmpty(str) {
+        return (!str?.length);
+    },
     createUniqueID(length = 8) {
         return Math.random().toString(36).substring(2, 2 + length);
     },
