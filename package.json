@@ -1,6 +1,6 @@
 {
   "name": "@carry0987/switch-box",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "A library for create switcher via checkbox",
   "type": "module",
   "main": "dist/switchBox.min.js",

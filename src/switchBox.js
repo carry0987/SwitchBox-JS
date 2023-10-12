@@ -63,7 +63,11 @@ class SwitchBox {
                 }
             }
             if (title === null) {
-                title = ele.getAttribute('title') ? ele.getAttribute('title') : this.option.title;
+                title = (element.length === 1) ? this.option.title : null;
+                if (!title && ele.title) {
+                    title = ele.title;
+                    ele.removeAttribute('title');
+                }
             }
 
             // Handle switch checked
@@ -97,16 +101,17 @@ class SwitchBox {
 
             // Insert switch box
             const uuid = Util.createUniqueID(6);
-            let template = Util.getTemplate(uuid, this.option.theme);
+            let template = Util.getTemplate(this.id, this.option.theme);
             let templateNode = document.createElement('div');
             templateNode.innerHTML = template.trim();
             let labelNode = Util.getElem('label', templateNode);
             let cloneEle = ele.cloneNode(true);
+            cloneEle.dataset.uuid = uuid;
             labelNode.insertBefore(cloneEle, labelNode.firstChild);
             ele.parentNode.replaceChild(templateNode.firstElementChild, ele);
 
             // Insert switch title
-            let switchTitleNode = Util.getElem(`div.switch-box-${uuid} .switch-title`);
+            let switchTitleNode = Util.getElem(`div.switch-box-${this.id} .switch-title`, labelNode.parentNode);
             if (title === null) {
                 switchTitleNode.parentNode.removeChild(switchTitleNode);
             } else {
@@ -124,8 +129,12 @@ class SwitchBox {
             // Reselect new switch
             cloneEle.addEventListener('change', (e) => {
                 const isChecked = e.target.checked;
-                e.target.setAttribute('checked', isChecked ? 'checked' : '');
-                this.onToggled(e, e.target);
+                if (isChecked) {
+                    e.target.setAttribute('checked', 'checked');
+                } else {
+                    e.target.removeAttribute('checked');
+                }
+                this.onToggled(e, cloneEle);
                 isChecked ? this.onChecked(e, e.target) : this.onUnchecked(e, e.target);
             });
         });
@@ -153,7 +162,7 @@ class SwitchBox {
     }
 }
 
-SwitchBox.version = '1.2.6';
+SwitchBox.version = '1.2.7';
 SwitchBox.instance = [];
 SwitchBox.defaultOption = {
     title: null,
