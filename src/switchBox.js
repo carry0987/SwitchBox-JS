@@ -39,7 +39,7 @@ class SwitchBox {
             // Handle switch title
             let labelSibling = ele.nextElementSibling;
             let title = null;
-            let labeled = this.option.labeled;
+            let bindLabel = this.option.bindLabel;
             if (labelSibling && labelSibling.tagName === 'LABEL') {
                 title = (() => { // using IIFE
                     if (!Util.isEmpty(ele.name)) {
@@ -49,7 +49,7 @@ class SwitchBox {
                     }
                     if (!Util.isEmpty(ele.id)) {
                         if (labelSibling.htmlFor === ele.id) {
-                            labeled = true;
+                            bindLabel = true;
                         }
                         if (labelSibling.dataset.switchFor === ele.id || labelSibling.htmlFor === ele.id) {
                             return true;
@@ -112,7 +112,7 @@ class SwitchBox {
             } else {
                 let switchTitleSpan = Util.getElem('span', switchTitleNode);
                 switchTitleSpan.textContent = title;
-                if (labeled) {
+                if (bindLabel) {
                     switchTitleNode.classList.add('switch-box-labeled');
                     switchTitleNode.addEventListener('click', (e) => {
                         e.preventDefault();
@@ -153,11 +153,11 @@ class SwitchBox {
     }
 }
 
-SwitchBox.version = '1.2.5';
+SwitchBox.version = '1.2.6';
 SwitchBox.instance = [];
 SwitchBox.defaultOption = {
     title: null,
-    labeled: true,
+    bindLabel: true,
     checked: false,
     checkedByValue: false,
     styles: {},
