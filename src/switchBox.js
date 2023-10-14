@@ -162,7 +162,7 @@ class SwitchBox {
     }
 }
 
-SwitchBox.version = '1.2.7';
+SwitchBox.version = '__version__';
 SwitchBox.instance = [];
 SwitchBox.defaultOption = {
     title: null,
