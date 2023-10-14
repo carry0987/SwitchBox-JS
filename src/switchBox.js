@@ -5,7 +5,6 @@ import './switchBox.css';
 
 class SwitchBox {
     constructor(elem, option = {}) {
-        if (!(this instanceof SwitchBox)) return new SwitchBox(elem, option);
         this.init(elem, option, SwitchBox.instance.length);
         SwitchBox.instance.push(this);
 
