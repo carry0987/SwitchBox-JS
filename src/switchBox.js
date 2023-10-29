@@ -1,4 +1,4 @@
-import Util from './util';
+import Utils from './utils-ext';
 import throwError from './error';
 import reportInfo from './report';
 import './switchBox.css';
@@ -15,15 +15,15 @@ class SwitchBox {
      * Initializes the plugin
      */
     init(elem, option, id) {
-        let element = Util.getElem(elem, 'all');
+        let element = Utils.getElem(elem, 'all');
         if (element.length < 1) throwError('Elements not found');
         this.element = element;
         this.id = id;
-        this.option = Util.deepMerge({}, SwitchBox.defaultOption, option);
+        this.option = Utils.deepMerge({}, SwitchBox.defaultOption, option);
         // Inject stylesheet
         if (this.option?.styles && Object.keys(this.option.styles).length > 0) {
-            let styles = Util.deepMerge({}, this.option.styles);
-            Util.injectStylesheet(styles, id);
+            let styles = Utils.deepMerge({}, this.option.styles);
+            Utils.injectStylesheet(styles, id);
         }
         // Handle Event Listener
         this.onChecked = (e, target) => {if (this.option.onChecked) this.option.onChecked(e, target)};
@@ -41,12 +41,12 @@ class SwitchBox {
             let bindLabel = this.option.bindLabel;
             if (labelSibling && labelSibling.tagName === 'LABEL') {
                 title = (() => { // using IIFE
-                    if (!Util.isEmpty(ele.name)) {
+                    if (!Utils.isEmpty(ele.name)) {
                         if (labelSibling.dataset.switchFor === ele.name || labelSibling.htmlFor === ele.name) {
                             return true;
                         }
                     }
-                    if (!Util.isEmpty(ele.id)) {
+                    if (!Utils.isEmpty(ele.id)) {
                         if (labelSibling.htmlFor === ele.id) {
                             bindLabel = true;
                         }
@@ -99,22 +99,22 @@ class SwitchBox {
             }
 
             // Insert switch box
-            const uuid = Util.createUniqueID(6);
-            let template = Util.getTemplate(this.id, this.option.theme);
+            const uuid = Utils.generateRandom(6);
+            let template = Utils.getTemplate(this.id, this.option.theme);
             let templateNode = document.createElement('div');
             templateNode.innerHTML = template.trim();
-            let labelNode = Util.getElem('label', templateNode);
+            let labelNode = Utils.getElem('label', templateNode);
             let cloneEle = ele.cloneNode(true);
             cloneEle.dataset.uuid = uuid;
             labelNode.insertBefore(cloneEle, labelNode.firstChild);
             ele.parentNode.replaceChild(templateNode.firstElementChild, ele);
 
             // Insert switch title
-            let switchTitleNode = Util.getElem(`div.switch-box-${this.id} .switch-title`, labelNode.parentNode);
+            let switchTitleNode = Utils.getElem(`div.switch-box-${this.id} .switch-title`, labelNode.parentNode);
             if (title === null) {
                 switchTitleNode.parentNode.removeChild(switchTitleNode);
             } else {
-                let switchTitleSpan = Util.getElem('span', switchTitleNode);
+                let switchTitleSpan = Utils.getElem('span', switchTitleNode);
                 switchTitleSpan.textContent = title;
                 if (bindLabel) {
                     switchTitleNode.classList.add('switch-box-labeled');
@@ -154,7 +154,7 @@ class SwitchBox {
             let switchBoxNode = ele.parentNode;
             switchBoxNode.parentNode.replaceChild(ele, switchBoxNode);
         });
-        Util.removeStylesheet(this.id);
+        Utils.removeStylesheet(this.id);
         SwitchBox.instance.splice(this.id, 1);
 
         return this;
