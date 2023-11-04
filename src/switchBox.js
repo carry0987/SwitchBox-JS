@@ -169,7 +169,10 @@ SwitchBox.defaultOption = {
     checked: false,
     checkedByValue: false,
     styles: {},
-    theme: 'blue'
+    theme: 'blue',
+    onChecked: null,
+    onUnchecked: null,
+    onToggled: null
 };
 SwitchBox.destroyAll = () => {
     SwitchBox.instance.forEach((item, index) => {
