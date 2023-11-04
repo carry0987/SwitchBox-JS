@@ -102,6 +102,14 @@ class SwitchBox {
             if (ele.disabled) {
                 ele.setAttribute('disabled', 'disabled');
             } else {
+                if (this.option.disabledByValue) {
+                    if (Array.isArray(this.option.disabledByValue)) {
+                        if (this.option.disabledByValue.includes(ele.value)) {
+                            ele.disabled = true;
+                            ele.setAttribute('disabled', 'disabled');
+                        }
+                    }
+                }
                 if (this.option.disabled) {
                     if (typeof this.option.disabled === 'boolean' && element.length === 1) {
                         ele.disabled = true;
@@ -193,6 +201,7 @@ SwitchBox.defaultOption = {
     checked: false,
     checkedByValue: false,
     disabled: false,
+    disabledByValue: false,
     styles: {},
     theme: 'blue',
     loaded: null,
