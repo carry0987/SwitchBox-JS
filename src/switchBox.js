@@ -98,6 +98,27 @@ class SwitchBox {
                 }
             }
 
+            // Handle switch disabled
+            if (ele.disabled) {
+                ele.setAttribute('disabled', 'disabled');
+            } else {
+                if (this.option.disabled) {
+                    if (typeof this.option.disabled === 'boolean' && element.length === 1) {
+                        ele.disabled = true;
+                        ele.setAttribute('disabled', 'disabled');
+                    }
+                    if (typeof this.option.disabled === 'string') {
+                        this.option.disabled = [this.option.disabled];
+                    }
+                    if (Array.isArray(this.option.disabled)) {
+                        if (this.option.disabled.includes(ele.name) || this.option.disabled.includes(ele.id)) {
+                            ele.disabled = true;
+                            ele.setAttribute('disabled', 'disabled');
+                        }
+                    }
+                }
+            }
+
             // Insert switch box
             const uuid = Utils.generateRandom(6);
             let template = Utils.getTemplate(this.id, this.option.theme);
@@ -168,6 +189,7 @@ SwitchBox.defaultOption = {
     bindLabel: true,
     checked: false,
     checkedByValue: false,
+    disabled: false,
     styles: {},
     theme: 'blue',
     onChecked: null,

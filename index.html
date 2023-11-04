@@ -23,6 +23,12 @@
         <input type="checkbox" id="switch-6">
         <label for="switch-6">Switch-6</label>
     </div>
+    <hr>
+    <div id="app-3">
+        <h1>Disabled Input</h1>
+        <input type="checkbox" id="switch-7">
+        <label for="switch-7">Switch-7</label>
+    </div>
     <script src="dist/switchBox.min.js"></script>
     <script type="text/javascript">
     let switchBox1 = new SwitchBox('input[name="switch-1"]', {
@@ -49,6 +55,12 @@
         console.log(e.target.checked);
         console.log(ele);
     };
+    let switchBox4 = new SwitchBox('#app-3 input', {
+        disabled: ['switch-7'],
+        styles: {
+            '.switch-box': {'padding': '10px;'}
+        }
+    });
     </script>
 </body>
 </html>
