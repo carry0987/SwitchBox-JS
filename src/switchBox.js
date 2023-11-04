@@ -157,6 +157,9 @@ class SwitchBox {
                 this.onToggled(e, cloneEle);
                 isChecked ? this.onChecked(e, e.target) : this.onUnchecked(e, e.target);
             });
+
+            // Handle switch loaded
+            if (this.option.loaded) this.option.loaded(cloneEle)
         });
 
         return this;
@@ -192,6 +195,7 @@ SwitchBox.defaultOption = {
     disabled: false,
     styles: {},
     theme: 'blue',
+    loaded: null,
     onChecked: null,
     onUnchecked: null,
     onToggled: null

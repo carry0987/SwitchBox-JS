@@ -49,6 +49,9 @@
         checkedByValue: [1, '1'],
         styles: {
             '.switch-box': {'padding': '10px;'}
+        },
+        loaded: function(ele) {
+            console.log(ele);
         }
     });
     switchBox3.onToggled = function(e, ele) {
