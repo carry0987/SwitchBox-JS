@@ -1,5 +1,4 @@
 import Utils from './utils-ext';
-import throwError from './error';
 import reportInfo from './report';
 import './switchBox.css';
 
@@ -16,7 +15,7 @@ class SwitchBox {
      */
     init(elem, option, id) {
         let element = Utils.getElem(elem, 'all');
-        if (element.length < 1) throwError('Elements not found');
+        if (element.length < 1) Utils.throwError('Elements not found');
         this.element = element;
         this.id = id;
         this.option = Utils.deepMerge({}, SwitchBox.defaultOption, option);
@@ -31,7 +30,7 @@ class SwitchBox {
         this.onToggled = (e, target) => {if (this.option.onToggled) this.option.onToggled(e, target)};
         // Handle switch box
         element.forEach((ele, index) => {
-            if (ele.type !== 'checkbox') throwError('Element must be checkbox');
+            if (ele.type !== 'checkbox') Utils.throwError('Element must be checkbox');
             if (ele.hasAttribute('data-switchbox')) return;
             ele.setAttribute('data-switchbox', 'true');
 
