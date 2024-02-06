@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "target": "ESNext",
+        "moduleResolution": "node",
+        "strict": true,
+        "esModuleInterop": true,
+        "declaration": true,
+        "outDir": "dist"
+    },
+    "importHelpers": true,
+    "include": [
+        "src/*",
+        "src/module/config.ts",
+        "src/module/report.ts",
+        "src/module/utils-ext.ts"
+    ],
+    "exclude": ["node_modules"]
+}
