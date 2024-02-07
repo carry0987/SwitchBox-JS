@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test</title>
+    <title>SwitchBox-JS</title>
     <link href="dist/switchBox.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="https://carry0987.github.io/favicon.png" type="image/x-icon">
 </head>
 <body>
     <div id="app">
@@ -33,15 +34,21 @@
     <script type="text/javascript">
     let switchBox1 = new SwitchBox('input[name="switch-1"]', {
         title: 'Switch 1',
-        checked: true
+        checked: true,
+        onUnchecked: function(target) {
+            console.log(target);
+        }
     });
-    switchBox1.onToggled = function(e) {
-        console.log(e.target.checked);
+    switchBox1.onChange = (target, checked) => {
+        console.log(checked);
     };
     // console.log(switchBox1);
     let switchBox2 = new SwitchBox('input[name="switch-2"]', {
         title: 'Switch 2',
-        checked: false
+        checked: false,
+        onChecked: function(target) {
+            console.log(target);
+        }
     });
     let switchBox3 = new SwitchBox('#app-2 input', {
         bindLabel: false,
@@ -50,8 +57,8 @@
         styles: {
             '.switch-box': {'padding': '10px;'}
         },
-        loaded: function(ele) {
-            console.log(ele);
+        onLoad: function(switchbox) {
+            console.log(switchbox.elements);
         }
     });
     switchBox3.onToggled = function(e, ele) {
