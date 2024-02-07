@@ -118,7 +118,7 @@ class SwitchBox {
         }
 
         // Insert switchbox
-        let { cloneEle, templateNode, labelNode } = Utils.insertSwitchbox(this.id.toString(), this.options.theme as string, ele, randomID, remainLabel);
+        let { cloneEle, labelNode } = Utils.insertSwitchbox(this.id.toString(), this.options.theme as string, ele, randomID, remainLabel);
 
         // Insert switchbox title
         Utils.insertSwitchboxTitle(title, bindLabel, labelNode, cloneEle);
