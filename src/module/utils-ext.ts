@@ -32,12 +32,10 @@ class Utils {
         id = id.toString();
         let template = `
         <div class="switch-box switch-box-${id}">
-            <label class="switch switch-${theme}">
-                <span class="switch-style"></span>
-            </label>
-            <div class="switch-title">
-                <span></span>
+            <div class="switch switch-${theme}">
+                <span class="switch-style switch-trigger"></span>
             </div>
+            <label class="switch-title"></label>
         </div>
         `;
 
@@ -45,11 +43,10 @@ class Utils {
     };
 
     static handleSwitchboxTitle(
-        ele: HTMLElement,
+        ele: HTMLInputElement,
         labelSibling: HTMLElement | null
     ): SwitchboxTitleDetail {
-        let title: string | null =
-            ele.title || ele.dataset.switchboxTitle || null;
+        let title: string | null = ele.title || ele.dataset.switchboxTitle || null;
         let remainLabel: boolean = false;
         let randomID: string | null = null;
         let isValidLabel: boolean = false;
@@ -61,6 +58,9 @@ class Utils {
             const dataSwitchId = ele.dataset.switchId;
             remainLabel = !isEmpty(ele.id) && htmlFor === ele.id;
             isValidLabel = !isEmpty(ele.id) && dataSwitchFor === ele.id;
+            if (!isValidLabel && !isEmpty(ele.name)) {
+                isValidLabel = !isEmpty(dataSwitchFor) && dataSwitchFor === ele.name;
+            }
             if (!isEmpty(dataSwitchId) && dataSwitchFor === dataSwitchId) {
                 randomID = isEmpty(ele.id) && isEmpty(htmlFor) ? 'switch-' + generateRandom(6) : null;
                 isValidLabel = true;
@@ -69,6 +69,7 @@ class Utils {
                 labelToRestore = labelSibling.cloneNode(true) as HTMLLabelElement;
                 // Prefer the explicitly set title, fall back to text from the label.
                 title = title || labelSibling.textContent;
+                labelSibling.parentNode?.removeChild(labelSibling);
             }
         }
 
@@ -77,17 +78,17 @@ class Utils {
 
     static insertSwitchbox(
         id: string,
+        theme: string,
         ele: HTMLInputElement,
         randomID: string | null,
         remainLabel: boolean
     ): SwitchboxTemplate {
-        let template = Utils.getTemplate(id);
+        let template = Utils.getTemplate(id, theme);
         let templateNode = createElem('div');
         templateNode.innerHTML = template.trim();
-        let labelNode = getElem<HTMLLabelElement>(
-            'label',
-            templateNode
-        ) as HTMLLabelElement;
+        let switchNode = getElem<HTMLDivElement>('.switch', templateNode) as HTMLDivElement;
+        let switchTriggerNode = getElem<HTMLSpanElement>('.switch-trigger', templateNode) as HTMLSpanElement;
+        let labelNode = getElem<HTMLLabelElement>('label', templateNode) as HTMLLabelElement;
         let cloneEle = ele.cloneNode(true) as SwitchInputElement;
         cloneEle.withID = true;
         if (randomID) {
@@ -97,9 +98,14 @@ class Utils {
         if (remainLabel === true) {
             labelNode.htmlFor = cloneEle.id;
         }
-        if (labelNode.parentNode) {
-            labelNode.parentNode.insertBefore(cloneEle, labelNode);
-        }
+        // Add click event to the switch trigger
+        switchTriggerNode.addEventListener('click', (e) => {
+            e.preventDefault();
+            cloneEle.click();
+        });
+        // Replace the original element with the template
+        switchNode.insertBefore(cloneEle, switchNode.firstChild);
+        ele.parentNode!.replaceChild(templateNode.firstElementChild || templateNode, ele);
 
         return { cloneEle, templateNode, labelNode };
     }
@@ -115,7 +121,7 @@ class Utils {
         } else {
             labelNode.textContent = title;
             if (bindLabel === true) {
-                labelNode.classList.add('switch-labeled');
+                labelNode.classList.add('switch-box-labeled');
                 labelNode.addEventListener('click', (e) => {
                     e.preventDefault();
                     cloneEle.click();
@@ -134,6 +140,16 @@ class Utils {
         }
     }
 
+    static toggleDisableStatus(ele: HTMLInputElement, disabled: boolean): void {
+        if (disabled) {
+            ele.disabled = true;
+            ele.setAttribute('disabled', 'disabled');
+        } else {
+            ele.disabled = false;
+            ele.removeAttribute('disabled');
+        }
+    }
+
     static restoreElement(element: SwitchInputElement): void {
         if (typeof element.switchBoxChange === 'function') {
             element.removeEventListener('change', element.switchBoxChange);
@@ -143,8 +159,9 @@ class Utils {
         }
         element.switchBoxChange = undefined;
         element.removeAttribute('data-switchbox');
-        if (element.parentNode) {
+        if (element.parentNode && element.parentNode.parentNode) {
             let parentElement = element.parentNode as HTMLElement;
+            parentElement = parentElement.parentNode as HTMLElement;
             parentElement.replaceWith(element);
         }
         let labelNode = element.labelToRestore;
