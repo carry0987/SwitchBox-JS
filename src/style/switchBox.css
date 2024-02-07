@@ -54,6 +54,7 @@
 }
 
 .switch-title {
+    margin: 0;
     margin-left: 0.25em;
     display: inline-block;
     vertical-align: middle;
