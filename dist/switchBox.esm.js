@@ -274,9 +274,9 @@ const defaults = {
     title: null,
     bindLabel: true,
     checked: false,
-    checkedByValue: undefined,
+    checkedByValue: null,
     disabled: false,
-    disabledByValue: undefined,
+    disabledByValue: null,
     styles: {},
     theme: 'blue',
     onLoad: undefined,
@@ -317,10 +317,10 @@ styleInject(css_248z);
 
 class SwitchBox {
     static instances = [];
-    static version = '2.0.1';
+    static version = '2.0.2';
     static firstLoad = true;
     length = 0;
-    options;
+    options = defaults;
     id = 0;
     allElement = [];
     // Methods for external use
@@ -328,7 +328,7 @@ class SwitchBox {
     onCheckedCallback;
     onUncheckedCallback;
     onChangeCallback;
-    constructor(element, option = {}) {
+    constructor(element, option) {
         this.init(element, option, SwitchBox.instances.length);
         SwitchBox.instances.push(this);
         if (SwitchBox.instances.length === 1 && SwitchBox.firstLoad === true) {
@@ -476,7 +476,7 @@ class SwitchBox {
         });
         // Reset instance variables
         this.length = 0;
-        this.options = {};
+        this.options = defaults;
         this.allElement = [];
         // Remove any injected stylesheets
         Utils.removeStylesheet(this.id.toString());

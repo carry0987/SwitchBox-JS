@@ -15,14 +15,14 @@ export interface OnChangeCallback {
 }
 
 export interface SwitchBoxOption {
-    title?: string | null;
-    bindLabel?: boolean;
-    checked?: boolean | string | number | Array<string | number>;
-    checkedByValue?: Array<string | number>;
-    disabled?: boolean | string | number | Array<string | number>;
-    disabledByValue?: Array<string | number>;
-    styles?: object;
-    theme?: string;
+    title: string | null;
+    bindLabel: boolean;
+    checked: boolean | string | number | Array<string | number>;
+    checkedByValue: Array<string | number> | null;
+    disabled: boolean | string | number | Array<string | number>;
+    disabledByValue: Array<string | number> | null;
+    styles: object;
+    theme: string;
     onLoad?: OnLoadCallback;
     onChecked?: OnCheckedCallback;
     onUnchecked?: OnUnCheckedCallback;

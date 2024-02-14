@@ -9,7 +9,7 @@ class SwitchBox {
     private static version: string = '__version__';
     private static firstLoad: boolean = true;
     private length: number = 0;
-    private options!: SwitchBoxOption;
+    private options: SwitchBoxOption = defaults;
     private id: number = 0;
     private allElement: SwitchInputElement[] = [];
 
@@ -19,7 +19,7 @@ class SwitchBox {
     private onUncheckedCallback?: OnUnCheckedCallback;
     private onChangeCallback?: OnChangeCallback;
 
-    constructor(element: string | HTMLInputElement, option: SwitchBoxOption = {}) {
+    constructor(element: string | HTMLInputElement, option: Partial<SwitchBoxOption>) {
         this.init(element, option, SwitchBox.instances.length);
         SwitchBox.instances.push(this);
 
@@ -31,12 +31,12 @@ class SwitchBox {
         SwitchBox.firstLoad = false;
     }
 
-    private init(elements: string | HTMLInputElement, option: SwitchBoxOption, id: number) {
+    private init(elements: string | HTMLInputElement, option: Partial<SwitchBoxOption>, id: number) {
         let elem = Utils.getElem<HTMLInputElement>(elements, 'all');
         if (!elem || elem.length < 1) Utils.throwError('Cannot find elements : ' + elements);
         this.length = elem.length;
         this.id = id;
-        this.options = Utils.deepMerge({}, defaults, option);
+        this.options = Utils.deepMerge({} as SwitchBoxOption, defaults, option);
 
         // Inject stylesheet
         this.injectStyles();
@@ -177,7 +177,7 @@ class SwitchBox {
 
         // Reset instance variables
         this.length = 0;
-        this.options = {};
+        this.options = defaults;
         this.allElement = [];
 
         // Remove any injected stylesheets
