@@ -2,13 +2,13 @@ interface OnLoadCallback {
     (switchBox: any): void;
 }
 interface OnCheckedCallback {
-    (target: HTMLInputElement | null): void;
+    (target: HTMLInputElement): void;
 }
 interface OnUnCheckedCallback {
-    (target: HTMLInputElement | null): void;
+    (target: HTMLInputElement): void;
 }
 interface OnChangeCallback {
-    (target: HTMLInputElement | null, checked: boolean): void;
+    (target: HTMLInputElement, checked: boolean): void;
 }
 interface SwitchBoxOption {
     title: string | null;

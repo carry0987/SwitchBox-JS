@@ -317,7 +317,7 @@ styleInject(css_248z);
 
 class SwitchBox {
     static instances = [];
-    static version = '2.0.2';
+    static version = '2.0.3';
     static firstLoad = true;
     length = 0;
     options = defaults;
@@ -458,8 +458,8 @@ class SwitchBox {
         }
     }
     switchBoxChange(target) {
-        this.onChangeCallback?.(target, target.checked);
         Utils.toggleCheckStatus(target, target.checked);
+        this.onChangeCallback?.(target, target.checked);
         if (target.checked) {
             this.onCheckedCallback?.(target);
         }

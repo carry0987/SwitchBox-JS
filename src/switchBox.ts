@@ -158,8 +158,8 @@ class SwitchBox {
     }
 
     private switchBoxChange(target: SwitchInputElement): void {
-        this.onChangeCallback?.(target, target.checked);
         Utils.toggleCheckStatus(target, target.checked);
+        this.onChangeCallback?.(target, target.checked);
         if (target.checked) {
             this.onCheckedCallback?.(target);
         } else {

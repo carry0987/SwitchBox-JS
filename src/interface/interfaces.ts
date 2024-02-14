@@ -3,15 +3,15 @@ export interface OnLoadCallback {
 }
 
 export interface OnCheckedCallback {
-    (target: HTMLInputElement | null): void;
+    (target: HTMLInputElement): void;
 }
 
 export interface OnUnCheckedCallback {
-    (target: HTMLInputElement | null): void;
+    (target: HTMLInputElement): void;
 }
 
 export interface OnChangeCallback {
-    (target: HTMLInputElement | null, checked: boolean): void;
+    (target: HTMLInputElement, checked: boolean): void;
 }
 
 export interface SwitchBoxOption {
