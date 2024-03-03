@@ -4,8 +4,12 @@ function throwError(message) {
 
 function getElem(ele, mode, parent) {
     // Return generic Element type or NodeList
-    if (typeof ele !== 'string')
+    if (typeof ele !== 'string') {
+        if (mode === 'all') {
+            return [ele];
+        }
         return ele;
+    }
     let searchContext = document;
     if (mode === null && parent) {
         searchContext = parent;
@@ -317,7 +321,7 @@ styleInject(css_248z);
 
 class SwitchBox {
     static instances = [];
-    static version = '2.0.3';
+    static version = '2.0.4';
     static firstLoad = true;
     length = 0;
     options = defaults;
@@ -338,9 +342,15 @@ class SwitchBox {
         SwitchBox.firstLoad = false;
     }
     init(elements, option, id) {
-        let elem = Utils.getElem(elements, 'all');
-        if (!elem || elem.length < 1)
-            Utils.throwError('Cannot find elements : ' + elements);
+        let elem = null;
+        if (typeof elements === 'string') {
+            elem = Utils.getElem(elements, 'all');
+        }
+        else if (elements instanceof HTMLInputElement) {
+            elem = [elements];
+        }
+        if (!elem)
+            return Utils.throwError('Cannot find elements : ' + elements);
         this.length = elem.length;
         this.id = id;
         this.options = Utils.deepMerge({}, defaults, option);

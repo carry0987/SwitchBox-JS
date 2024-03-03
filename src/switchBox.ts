@@ -32,8 +32,13 @@ class SwitchBox {
     }
 
     private init(elements: string | HTMLInputElement, option: Partial<SwitchBoxOption>, id: number) {
-        let elem = Utils.getElem<HTMLInputElement>(elements, 'all');
-        if (!elem || elem.length < 1) Utils.throwError('Cannot find elements : ' + elements);
+        let elem: NodeListOf<HTMLInputElement> | Array<HTMLInputElement> | null = null;
+        if (typeof elements === 'string') {
+            elem = Utils.getElem<HTMLInputElement>(elements, 'all');
+        } else if (elements instanceof HTMLInputElement) {
+            elem = [elements];
+        }
+        if (!elem) return Utils.throwError('Cannot find elements : ' + elements);
         this.length = elem.length;
         this.id = id;
         this.options = Utils.deepMerge({} as SwitchBoxOption, defaults, option);
