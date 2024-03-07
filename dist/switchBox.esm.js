@@ -321,7 +321,7 @@ styleInject(css_248z);
 
 class SwitchBox {
     static instances = [];
-    static version = '2.0.4';
+    static version = '2.0.5';
     static firstLoad = true;
     length = 0;
     options = defaults;

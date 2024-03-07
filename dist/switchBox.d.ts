@@ -24,6 +24,17 @@ interface SwitchBoxOption {
     onUnchecked?: OnUnCheckedCallback;
     onChange?: OnChangeCallback;
 }
+interface SwitchboxTitleDetail {
+    title: string | null;
+    remainLabel: boolean;
+    randomID: string | null;
+    labelToRestore?: HTMLLabelElement;
+}
+interface SwitchboxTemplate {
+    cloneEle: SwitchInputElement;
+    templateNode: HTMLDivElement;
+    labelNode: HTMLLabelElement;
+}
 interface SwitchInputElement extends HTMLInputElement {
     withID: boolean;
     switchBoxChange?: EventListener;
@@ -62,4 +73,4 @@ declare class SwitchBox {
     static destroyAll(): void;
 }
 
-export { SwitchBox as default };
+export { type OnChangeCallback, type OnCheckedCallback, type OnLoadCallback, type OnUnCheckedCallback, type SwitchBoxOption, type SwitchInputElement, type SwitchboxTemplate, type SwitchboxTitleDetail, SwitchBox as default };

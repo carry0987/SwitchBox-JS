@@ -225,4 +225,5 @@ class SwitchBox {
     }
 }
 
-export default SwitchBox;
+export { SwitchBox as default };
+export * from './interface/interfaces';
