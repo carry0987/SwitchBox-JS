@@ -1,3 +1,18 @@
+const defaults = {
+    title: null,
+    bindLabel: true,
+    checked: false,
+    checkedByValue: null,
+    disabled: false,
+    disabledByValue: null,
+    styles: {},
+    theme: 'blue',
+    onLoad: undefined,
+    onChecked: undefined,
+    onUnchecked: undefined,
+    onChange: undefined
+};
+
 function throwError(message) {
     throw new Error(message);
 }
@@ -5,9 +20,6 @@ function throwError(message) {
 function getElem(ele, mode, parent) {
     // Return generic Element type or NodeList
     if (typeof ele !== 'string') {
-        if (mode === 'all') {
-            return [ele];
-        }
         return ele;
     }
     let searchContext = document;
@@ -47,7 +59,30 @@ const replaceRule = {
     to: '.utils-'
 };
 function isObject(item) {
-    return typeof item === 'object' && item !== null && !Array.isArray(item);
+    return typeof item === 'object' && item !== null && !isArray(item);
+}
+function isArray(item) {
+    return Array.isArray(item);
+}
+function isEmpty(value) {
+    // Check for number
+    if (typeof value === 'number') {
+        return false;
+    }
+    // Check for string
+    if (typeof value === 'string' && value.length === 0) {
+        return true;
+    }
+    // Check for array
+    if (isArray(value) && value.length === 0) {
+        return true;
+    }
+    // Check for object
+    if (isObject(value) && Object.keys(value).length === 0) {
+        return true;
+    }
+    // Check for any falsy values
+    return !value;
 }
 function deepMerge(target, ...sources) {
     if (!sources.length)
@@ -59,9 +94,9 @@ function deepMerge(target, ...sources) {
                 const sourceKey = key;
                 const value = source[sourceKey];
                 const targetKey = key;
-                if (isObject(value)) {
+                if (isObject(value) || isArray(value)) {
                     if (!target[targetKey] || typeof target[targetKey] !== 'object') {
-                        target[targetKey] = {};
+                        target[targetKey] = isArray(value) ? [] : {};
                     }
                     deepMerge(target[targetKey], value);
                 }
@@ -117,14 +152,15 @@ function removeStylesheet(id = null) {
         styleElement.parentNode.removeChild(styleElement);
     }
 }
-function isEmpty(str) {
-    if (typeof str === 'number') {
-        return false;
-    }
-    return !str || (typeof str === 'string' && str.length === 0);
-}
 function generateRandom(length = 8) {
-    return Math.random().toString(36).substring(2, 2 + length);
+    let result = '';
+    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charactersLength);
+        result += characters[randomIndex];
+    }
+    return result;
 }
 
 class Utils {
@@ -274,54 +310,9 @@ const reportInfo = (vars, showType = false) => {
     }
 };
 
-const defaults = {
-    title: null,
-    bindLabel: true,
-    checked: false,
-    checkedByValue: null,
-    disabled: false,
-    disabledByValue: null,
-    styles: {},
-    theme: 'blue',
-    onLoad: undefined,
-    onChecked: undefined,
-    onUnchecked: undefined,
-    onChange: undefined
-};
-
-function styleInject(css, ref) {
-  if ( ref === void 0 ) ref = {};
-  var insertAt = ref.insertAt;
-
-  if (!css || typeof document === 'undefined') { return; }
-
-  var head = document.head || document.getElementsByTagName('head')[0];
-  var style = document.createElement('style');
-  style.type = 'text/css';
-
-  if (insertAt === 'top') {
-    if (head.firstChild) {
-      head.insertBefore(style, head.firstChild);
-    } else {
-      head.appendChild(style);
-    }
-  } else {
-    head.appendChild(style);
-  }
-
-  if (style.styleSheet) {
-    style.styleSheet.cssText = css;
-  } else {
-    style.appendChild(document.createTextNode(css));
-  }
-}
-
-var css_248z = "/* Switch */\n.switch,\n.switch-style,\n.switch-style:before {\n    -webkit-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    box-sizing: border-box;\n}\n\n.switch-box {\n    display: flex;\n    justify-content: flex-start;\n    align-items: center;\n    margin: 5px 0;\n}\n\n.switch {\n    display: inline-block;\n    font-size: 100%;\n    height: 1.6em;\n    margin: 0;\n    position: relative;\n    vertical-align: middle;\n}\n\n.switch .switch-style {\n    height: 1.65em;\n    left: 0;\n    background: #C0CCDA;\n    -webkit-border-radius: 0.8em;\n    border-radius: 0.8em;\n    display: inline-block;\n    position: relative;\n    top: 0;\n    -webkit-transition: all 0.15s cubic-bezier(0.45, 0.05, 0.55, 0.95);\n    transition: all 0.15s cubic-bezier(0.45, 0.05, 0.55, 0.95);\n    width: 3.125em;\n    cursor: pointer;\n}\n\n.switch .switch-style:before {\n    display: block;\n    content: '';\n    height: 1.4em;\n    position: absolute;\n    width: 1.4em;\n    background-color: #fff;\n    -webkit-border-radius: 50%;\n    border-radius: 50%;\n    left: 0.125em;\n    top: 0.125em;\n    -webkit-transition: all 0.15s cubic-bezier(0.45, 0.05, 0.55, 0.95);\n    transition: all 0.15s cubic-bezier(0.45, 0.05, 0.55, 0.95);\n}\n\n.switch-title {\n    margin: 0;\n    margin-left: 0.25em;\n    display: inline-block;\n    vertical-align: middle;\n    line-height: 1.25em;\n    font-size: 1.25em;\n    text-transform: capitalize;\n}\n\n.switch-title.switch-box-labeled {\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n}\n\n.switch-title.switch-box-labeled:hover {\n    cursor: pointer;\n}\n\n.switch>input[type=\"checkbox\"] {\n    display: none;\n}\n\n.switch>input[type=\"checkbox\"][disabled]+.switch-style {\n    cursor: not-allowed;\n    background-color: #c0c3c6;\n}\n\n.switch>input[type=\"checkbox\"][disabled]+.switch-style:before {\n    background-color: #f3f3f3;\n}\n\n.switch>input[type=\"checkbox\"]:checked+.switch-style {\n    background-color: #20a0ff;\n}\n\n.switch>input[type=\"checkbox\"]:checked+.switch-style:before {\n    left: 50%;\n}\n\n.switch>input[type=\"checkbox\"]:checked[disabled]+.switch-style {\n    background-color: #b0d7f5;\n}\n\n.switch.switch-blue>input[type=\"checkbox\"]:checked+.switch-style {\n    background-color: #20a0ff;\n}\n\n.switch.switch-blue>input[type=\"checkbox\"]:checked[disabled]+.switch-style {\n    background-color: #b0d7f5;\n}\n\n.switch.switch-green>input[type=\"checkbox\"]:checked+.switch-style {\n    background-color: #13ce66;\n}\n\n.switch.switch-green>input[type=\"checkbox\"]:checked[disabled]+.switch-style {\n    background-color: #a1efc4;\n}\n\n.switch.switch-red>input[type=\"checkbox\"]:checked+.switch-style {\n    background-color: #ff4949;\n}\n\n.switch.switch-red>input[type=\"checkbox\"]:checked[disabled]+.switch-style {\n    background-color: #f9b3b3;\n}\n\n.switch.switch-yellow>input[type=\"checkbox\"]:checked+.switch-style {\n    background-color: #f7ba2a;\n}\n\n.switch.switch-yellow>input[type=\"checkbox\"]:checked[disabled]+.switch-style {\n    background-color: #fbeac1;\n}\n";
-styleInject(css_248z);
-
 class SwitchBox {
     static instances = [];
-    static version = '2.0.5';
+    static version = '2.1.0';
     static firstLoad = true;
     length = 0;
     options = defaults;
@@ -345,6 +336,9 @@ class SwitchBox {
         let elem = null;
         if (typeof elements === 'string') {
             elem = Utils.getElem(elements, 'all');
+        }
+        else if (elements instanceof NodeList || elements instanceof Array) {
+            elem = elements;
         }
         else if (elements instanceof HTMLInputElement) {
             elem = [elements];
@@ -374,14 +368,20 @@ class SwitchBox {
     }
     setupCallbacks() {
         // Handle onChange event
-        this.onChange = (target, checked) => { if (this.options?.onChange)
-            this.options.onChange(target, checked); };
+        this.onChange = (target, checked) => {
+            if (this.options?.onChange)
+                this.options.onChange(target, checked);
+        };
         // Handle onChecked event
-        this.onChecked = (target) => { if (this.options?.onChecked)
-            this.options.onChecked(target); };
+        this.onChecked = (target) => {
+            if (this.options?.onChecked)
+                this.options.onChecked(target);
+        };
         // Handle onUnchecked event
-        this.onUnchecked = (target) => { if (this.options?.onUnchecked)
-            this.options.onUnchecked(target); };
+        this.onUnchecked = (target) => {
+            if (this.options?.onUnchecked)
+                this.options.onUnchecked(target);
+        };
         // Handle onLoad event
         this.onLoadCallback = this.options?.onLoad;
     }
@@ -447,7 +447,8 @@ class SwitchBox {
         if (checked === true && this.length === 1) {
             Utils.toggleCheckStatus(ele, true);
         }
-        else if ((typeof checked === 'string' && ele.value === checked) || (typeof checked === 'number' && index === checked)) {
+        else if ((typeof checked === 'string' && ele.value === checked) ||
+            (typeof checked === 'number' && index === checked)) {
             Utils.toggleCheckStatus(ele, true);
         }
         else if (Array.isArray(checked) && (checked.includes(ele.name) || checked.includes(ele.id))) {
@@ -460,7 +461,8 @@ class SwitchBox {
         if (disabled === true && this.length === 1) {
             Utils.toggleDisableStatus(ele, true);
         }
-        else if ((typeof disabled === 'string' && ele.value === disabled) || (typeof disabled === 'number' && index === disabled)) {
+        else if ((typeof disabled === 'string' && ele.value === disabled) ||
+            (typeof disabled === 'number' && index === disabled)) {
             Utils.toggleDisableStatus(ele, true);
         }
         else if (Array.isArray(disabled) && (disabled.includes(ele.name) || disabled.includes(ele.id))) {
@@ -481,7 +483,7 @@ class SwitchBox {
         // Reset firstLoad flag
         SwitchBox.firstLoad = false;
         // Remove event listeners from all elements
-        this.allElement.forEach(element => {
+        this.allElement.forEach((element) => {
             Utils.restoreElement(element);
         });
         // Reset instance variables
@@ -522,4 +524,38 @@ class SwitchBox {
     }
 }
 
-export { SwitchBox as default };
+var interfaces = /*#__PURE__*/Object.freeze({
+    __proto__: null
+});
+
+function styleInject(css, ref) {
+  if ( ref === void 0 ) ref = {};
+  var insertAt = ref.insertAt;
+
+  if (typeof document === 'undefined') { return; }
+
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var style = document.createElement('style');
+  style.type = 'text/css';
+
+  if (insertAt === 'top') {
+    if (head.firstChild) {
+      head.insertBefore(style, head.firstChild);
+    } else {
+      head.appendChild(style);
+    }
+  } else {
+    head.appendChild(style);
+  }
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var css_248z = ".switch, .switch-style, .switch-style:before {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\n.switch {\n  display: inline-block;\n  font-size: 100%;\n  height: 1.6em;\n  margin: 0;\n  position: relative;\n  vertical-align: middle;\n}\n.switch-box {\n  display: flex;\n  justify-content: flex-start;\n  align-items: center;\n  margin: 5px 0;\n}\n.switch .switch-style {\n  position: relative;\n}\n.switch .switch-style {\n  height: 1.65em;\n  left: 0;\n  background: #c0ccda;\n  -webkit-border-radius: 0.8em;\n  border-radius: 0.8em;\n  display: inline-block;\n  top: 0;\n  width: 3.125em;\n  cursor: pointer;\n  -webkit-transition: all 0.15s cubic-bezier(0.45, 0.05, 0.55, 0.95);\n  transition: all 0.15s cubic-bezier(0.45, 0.05, 0.55, 0.95);\n}\n.switch .switch-style:before {\n  content: \"\";\n}\n.switch .switch-style:before {\n  display: block;\n  height: 1.4em;\n  position: absolute;\n  width: 1.4em;\n  background-color: #fff;\n  -webkit-border-radius: 50%;\n  border-radius: 50%;\n  left: 0.125em;\n  top: 0.125em;\n  -webkit-transition: all 0.15s cubic-bezier(0.45, 0.05, 0.55, 0.95);\n  transition: all 0.15s cubic-bezier(0.45, 0.05, 0.55, 0.95);\n}\n.switch > input[type=checkbox] {\n  display: none;\n}\n.switch > input[type=checkbox]:checked + .switch-style {\n  background-color: #20a0ff;\n}\n.switch > input[type=checkbox]:checked + .switch-style:before {\n  left: 50%;\n}\n.switch > input[type=checkbox]:checked + .switch-style[disabled] {\n  background-color: #b0d7f5;\n}\n.switch > input[type=checkbox][disabled] + .switch-style {\n  cursor: not-allowed;\n  background-color: #c0c3c6;\n}\n.switch > input[type=checkbox][disabled] + .switch-style:before {\n  background-color: #f3f3f3;\n}\n\n.switch-title {\n  margin: 0;\n  margin-left: 0.25em;\n  display: inline-block;\n  vertical-align: middle;\n  line-height: 1.25em;\n  font-size: 1.25em;\n  text-transform: capitalize;\n}\n.switch-title.switch-box-labeled {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n.switch-title.switch-box-labeled:hover {\n  cursor: pointer;\n}\n\n.switch-blue input[type=checkbox]:checked + .switch-style {\n  background-color: #20a0ff;\n}\n.switch-blue input[type=checkbox]:checked + .switch-style[disabled] {\n  background-color: #b0d7f5;\n}\n\n.switch-green input[type=checkbox]:checked + .switch-style {\n  background-color: #13ce66;\n}\n.switch-green input[type=checkbox]:checked + .switch-style[disabled] {\n  background-color: #a1efc4;\n}\n\n.switch-red input[type=checkbox]:checked + .switch-style {\n  background-color: #ff4949;\n}\n.switch-red input[type=checkbox]:checked + .switch-style[disabled] {\n  background-color: #f9b3b3;\n}\n\n.switch-yellow input[type=checkbox]:checked + .switch-style {\n  background-color: #f7ba2a;\n}\n.switch-yellow input[type=checkbox]:checked + .switch-style[disabled] {\n  background-color: #fbeac1;\n}";
+styleInject(css_248z);
+
+export { SwitchBox, interfaces as SwitchBoxInterface };

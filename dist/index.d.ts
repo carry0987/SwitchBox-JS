@@ -1,5 +1,5 @@
 interface OnLoadCallback {
-    (switchBox: any): void;
+    (switchBox: SwitchBox): void;
 }
 interface OnCheckedCallback {
     (target: HTMLInputElement): void;
@@ -41,6 +41,20 @@ interface SwitchInputElement extends HTMLInputElement {
     labelToRestore?: HTMLLabelElement;
 }
 
+type interfaces_OnChangeCallback = OnChangeCallback;
+type interfaces_OnCheckedCallback = OnCheckedCallback;
+type interfaces_OnLoadCallback = OnLoadCallback;
+type interfaces_OnUnCheckedCallback = OnUnCheckedCallback;
+type interfaces_SwitchBoxOption = SwitchBoxOption;
+type interfaces_SwitchInputElement = SwitchInputElement;
+type interfaces_SwitchboxTemplate = SwitchboxTemplate;
+type interfaces_SwitchboxTitleDetail = SwitchboxTitleDetail;
+declare namespace interfaces {
+  export type { interfaces_OnChangeCallback as OnChangeCallback, interfaces_OnCheckedCallback as OnCheckedCallback, interfaces_OnLoadCallback as OnLoadCallback, interfaces_OnUnCheckedCallback as OnUnCheckedCallback, interfaces_SwitchBoxOption as SwitchBoxOption, interfaces_SwitchInputElement as SwitchInputElement, interfaces_SwitchboxTemplate as SwitchboxTemplate, interfaces_SwitchboxTitleDetail as SwitchboxTitleDetail };
+}
+
+type InputElement = string | HTMLInputElement | Array<HTMLInputElement> | NodeListOf<HTMLInputElement> | null;
+
 declare class SwitchBox {
     private static instances;
     private static version;
@@ -53,7 +67,7 @@ declare class SwitchBox {
     private onCheckedCallback?;
     private onUncheckedCallback?;
     private onChangeCallback?;
-    constructor(element: string | HTMLInputElement, option: Partial<SwitchBoxOption>);
+    constructor(element: InputElement, option: Partial<SwitchBoxOption>);
     private init;
     private injectStyles;
     private setupCallbacks;
@@ -73,4 +87,4 @@ declare class SwitchBox {
     static destroyAll(): void;
 }
 
-export { type OnChangeCallback, type OnCheckedCallback, type OnLoadCallback, type OnUnCheckedCallback, type SwitchBoxOption, type SwitchInputElement, type SwitchboxTemplate, type SwitchboxTitleDetail, SwitchBox as default };
+export { SwitchBox, interfaces as SwitchBoxInterface };

@@ -8,13 +8,9 @@ import {
     deepMerge,
     generateRandom,
     injectStylesheet,
-    removeStylesheet,
+    removeStylesheet
 } from '@carry0987/utils';
-import {
-    SwitchboxTitleDetail,
-    SwitchboxTemplate,
-    SwitchInputElement,
-} from '../interface/interfaces';
+import { SwitchboxTitleDetail, SwitchboxTemplate, SwitchInputElement } from '@/interface/interfaces';
 
 class Utils {
     static setStylesheetId = setStylesheetId;
@@ -42,10 +38,7 @@ class Utils {
         return template;
     };
 
-    static handleSwitchboxTitle(
-        ele: HTMLInputElement,
-        labelSibling: HTMLElement | null
-    ): SwitchboxTitleDetail {
+    static handleSwitchboxTitle(ele: HTMLInputElement, labelSibling: HTMLElement | null): SwitchboxTitleDetail {
         let title: string | null = ele.title || ele.dataset.switchboxTitle || null;
         let remainLabel: boolean = false;
         let randomID: string | null = null;

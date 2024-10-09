@@ -1,8 +1,15 @@
-import Utils from './module/utils-ext';
-import { OnLoadCallback, OnCheckedCallback, OnUnCheckedCallback, OnChangeCallback, SwitchBoxOption, SwitchInputElement } from './interface/interfaces';
-import reportInfo from './module/report';
-import { defaults } from './module/config';
-import './style/switchBox.css';
+import { defaults } from '@/component/config';
+import Utils from '@/module/utils-ext';
+import reportInfo from '@/module/report';
+import {
+    OnLoadCallback,
+    OnCheckedCallback,
+    OnUnCheckedCallback,
+    OnChangeCallback,
+    SwitchBoxOption,
+    SwitchInputElement
+} from '@/interface/interfaces';
+import { InputElement } from '@/type/types';
 
 class SwitchBox {
     private static instances: SwitchBox[] = [];
@@ -19,7 +26,7 @@ class SwitchBox {
     private onUncheckedCallback?: OnUnCheckedCallback;
     private onChangeCallback?: OnChangeCallback;
 
-    constructor(element: string | HTMLInputElement, option: Partial<SwitchBoxOption>) {
+    constructor(element: InputElement, option: Partial<SwitchBoxOption>) {
         this.init(element, option, SwitchBox.instances.length);
         SwitchBox.instances.push(this);
 
@@ -31,10 +38,12 @@ class SwitchBox {
         SwitchBox.firstLoad = false;
     }
 
-    private init(elements: string | HTMLInputElement, option: Partial<SwitchBoxOption>, id: number) {
+    private init(elements: InputElement, option: Partial<SwitchBoxOption>, id: number) {
         let elem: NodeListOf<HTMLInputElement> | Array<HTMLInputElement> | null = null;
         if (typeof elements === 'string') {
             elem = Utils.getElem<HTMLInputElement>(elements, 'all');
+        } else if (elements instanceof NodeList || elements instanceof Array) {
+            elem = elements;
         } else if (elements instanceof HTMLInputElement) {
             elem = [elements];
         }
@@ -69,11 +78,17 @@ class SwitchBox {
 
     private setupCallbacks(): void {
         // Handle onChange event
-        this.onChange = (target, checked) => {if (this.options?.onChange) this.options.onChange(target, checked)};
+        this.onChange = (target, checked) => {
+            if (this.options?.onChange) this.options.onChange(target, checked);
+        };
         // Handle onChecked event
-        this.onChecked = (target) => {if (this.options?.onChecked) this.options.onChecked(target)};
+        this.onChecked = (target) => {
+            if (this.options?.onChecked) this.options.onChecked(target);
+        };
         // Handle onUnchecked event
-        this.onUnchecked = (target) => {if (this.options?.onUnchecked) this.options.onUnchecked(target)};
+        this.onUnchecked = (target) => {
+            if (this.options?.onUnchecked) this.options.onUnchecked(target);
+        };
         // Handle onLoad event
         this.onLoadCallback = this.options?.onLoad;
     }
@@ -123,7 +138,13 @@ class SwitchBox {
         }
 
         // Insert switchbox
-        let { cloneEle, labelNode } = Utils.insertSwitchbox(this.id.toString(), this.options.theme as string, ele, randomID, remainLabel);
+        let { cloneEle, labelNode } = Utils.insertSwitchbox(
+            this.id.toString(),
+            this.options.theme as string,
+            ele,
+            randomID,
+            remainLabel
+        );
 
         // Insert switchbox title
         Utils.insertSwitchboxTitle(title, bindLabel, labelNode, cloneEle);
@@ -143,7 +164,10 @@ class SwitchBox {
         const checked = this.options.checked;
         if (checked === true && this.length === 1) {
             Utils.toggleCheckStatus(ele, true);
-        } else if ((typeof checked === 'string' && ele.value === checked) || (typeof checked === 'number' && index === checked)) {
+        } else if (
+            (typeof checked === 'string' && ele.value === checked) ||
+            (typeof checked === 'number' && index === checked)
+        ) {
             Utils.toggleCheckStatus(ele, true);
         } else if (Array.isArray(checked) && (checked.includes(ele.name) || checked.includes(ele.id))) {
             Utils.toggleCheckStatus(ele, true);
@@ -155,7 +179,10 @@ class SwitchBox {
         const disabled = this.options.disabled;
         if (disabled === true && this.length === 1) {
             Utils.toggleDisableStatus(ele, true);
-        } else if ((typeof disabled === 'string' && ele.value === disabled) || (typeof disabled === 'number' && index === disabled)) {
+        } else if (
+            (typeof disabled === 'string' && ele.value === disabled) ||
+            (typeof disabled === 'number' && index === disabled)
+        ) {
             Utils.toggleDisableStatus(ele, true);
         } else if (Array.isArray(disabled) && (disabled.includes(ele.name) || disabled.includes(ele.id))) {
             Utils.toggleDisableStatus(ele, true);
@@ -176,7 +203,7 @@ class SwitchBox {
         // Reset firstLoad flag
         SwitchBox.firstLoad = false;
         // Remove event listeners from all elements
-        this.allElement.forEach(element => {
+        this.allElement.forEach((element) => {
             Utils.restoreElement(element);
         });
 
@@ -225,5 +252,4 @@ class SwitchBox {
     }
 }
 
-export { SwitchBox as default };
-export * from './interface/interfaces';
+export { SwitchBox };

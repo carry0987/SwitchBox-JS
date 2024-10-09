@@ -1,0 +1,155 @@
+// Switch structure
+.switch {
+    &,
+    &-style,
+    &-style:before {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    & {
+        display: inline-block;
+        font-size: 100%;
+        height: 1.6em;
+        margin: 0;
+        position: relative;
+        vertical-align: middle;
+    }
+
+    // Nested rules come after the above declarations
+    &-box {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 5px 0;
+    }
+
+    .switch-style {
+        position: relative;
+        // Wrap the remaining declarations in & {}
+        & {
+            height: 1.65em;
+            left: 0;
+            background: #c0ccda;
+            -webkit-border-radius: 0.8em;
+            border-radius: 0.8em;
+            display: inline-block;
+            top: 0;
+            width: 3.125em;
+            cursor: pointer;
+            -webkit-transition: all 0.15s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+            transition: all 0.15s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        }
+
+        &:before {
+            content: '';
+            // Wrap the remaining declarations in & {}
+            & {
+                display: block;
+                height: 1.4em;
+                position: absolute;
+                width: 1.4em;
+                background-color: #fff;
+                -webkit-border-radius: 50%;
+                border-radius: 50%;
+                left: 0.125em;
+                top: 0.125em;
+                -webkit-transition: all 0.15s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+                transition: all 0.15s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+            }
+        }
+    }
+
+    // Input handling comes after initial declarations
+    > input[type='checkbox'] {
+        display: none;
+
+        &:checked + .switch-style {
+            & {
+                background-color: #20a0ff;
+            }
+
+            &:before {
+                left: 50%;
+            }
+
+            &[disabled] {
+                background-color: #b0d7f5;
+            }
+        }
+
+        &[disabled] + .switch-style {
+            & {
+                cursor: not-allowed;
+                background-color: #c0c3c6;
+            }
+
+            &:before {
+                background-color: #f3f3f3;
+            }
+        }
+    }
+}
+
+.switch-title {
+    margin: 0;
+    margin-left: 0.25em;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1.25em;
+    font-size: 1.25em;
+    text-transform: capitalize;
+
+    &.switch-box-labeled {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+// Custom colors
+.switch-blue {
+    input[type='checkbox']:checked + .switch-style {
+        background-color: #20a0ff;
+
+        &[disabled] {
+            background-color: #b0d7f5;
+        }
+    }
+}
+
+.switch-green {
+    input[type='checkbox']:checked + .switch-style {
+        background-color: #13ce66;
+
+        &[disabled] {
+            background-color: #a1efc4;
+        }
+    }
+}
+
+.switch-red {
+    input[type='checkbox']:checked + .switch-style {
+        background-color: #ff4949;
+
+        &[disabled] {
+            background-color: #f9b3b3;
+        }
+    }
+}
+
+.switch-yellow {
+    input[type='checkbox']:checked + .switch-style {
+        background-color: #f7ba2a;
+
+        &[disabled] {
+            background-color: #fbeac1;
+        }
+    }
+}

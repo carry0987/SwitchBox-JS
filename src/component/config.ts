@@ -1,4 +1,4 @@
-import { SwitchBoxOption } from '../interface/interfaces';
+import { SwitchBoxOption } from '@/interface/interfaces';
 
 export const defaults: SwitchBoxOption = {
     title: null,

@@ -1,18 +1,27 @@
 {
   "name": "@carry0987/switch-box",
-  "version": "2.0.5",
+  "version": "2.1.0",
   "description": "A library for create switcher via checkbox",
   "type": "module",
   "main": "dist/switchBox.min.js",
   "module": "dist/switchBox.esm.js",
-  "types": "dist/switchBox.d.ts",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "umd": "./dist/switchBox.min.js",
+      "import": "./dist/switchBox.esm.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./theme/switchBox.min.css": "./dist/theme/switchBox.min.css"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "rollup --config rollup.config.js",
-    "build": "rollup --config rollup.config.js --environment BUILD:production"
+    "format": "prettier --write \"src/**/*.{ts,scss}\" \"test/**/*.{ts,tsx,scss}\"",
+    "start": "rollup --config rollup.config.ts --configPlugin typescript",
+    "build": "rollup --config rollup.config.ts --configPlugin typescript --environment BUILD:production",
+    "test": "vitest run"
   },
   "files": [
-    "dist"
+    "dist/*"
   ],
   "repository": {
     "type": "git",
@@ -29,15 +38,22 @@
   },
   "homepage": "https://github.com/carry0987/SwitchBox-JS#readme",
   "devDependencies": {
-    "@carry0987/utils": "^3.2.14",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-replace": "^5.0.5",
+    "@carry0987/utils": "^3.7.7",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-replace": "^6.0.1",
     "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^11.1.6",
-    "rollup": "^4.12.1",
-    "rollup-plugin-delete": "^2.0.0",
-    "rollup-plugin-dts": "^6.1.0",
+    "@rollup/plugin-typescript": "^12.1.0",
+    "@testing-library/preact": "^3.2.4",
+    "happy-dom": "^15.7.4",
+    "preact": "^10.24.2",
+    "prettier": "^3.3.3",
+    "rollup": "^4.24.0",
+    "rollup-plugin-delete": "^2.1.0",
+    "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-postcss": "^4.0.2",
-    "tslib": "^2.6.2"
+    "rollup-plugin-tsconfig-paths": "^1.5.2",
+    "sass": "^1.79.4",
+    "tslib": "^2.7.0",
+    "vitest": "^2.1.2"
   }
 }

@@ -1,5 +1,7 @@
+import { SwitchBox } from '@/component/switchBox';
+
 export interface OnLoadCallback {
-    (switchBox: any): void;
+    (switchBox: SwitchBox): void;
 }
 
 export interface OnCheckedCallback {

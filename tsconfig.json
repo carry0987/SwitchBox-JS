@@ -2,18 +2,22 @@
     "compilerOptions": {
         "module": "ESNext",
         "target": "ESNext",
-        "moduleResolution": "node",
-        "strict": true,
+        "moduleResolution": "Node",
         "esModuleInterop": true,
+        "importHelpers": true,
+        "strict": true,
+        "jsx": "react-jsx",
+        "jsxImportSource": "preact",
         "declaration": true,
-        "outDir": "dist"
+        "declarationDir": "dist/dts/",
+        "paths": {
+            "@/*": ["./src/*"]
+        }
     },
-    "importHelpers": true,
     "include": [
-        "src/*",
-        "src/module/config.ts",
-        "src/module/report.ts",
-        "src/module/utils-ext.ts"
+        "src/**/*",
+        "test/**/*",
+        "rollup.config.ts"
     ],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "dist", "**/__snapshots__/**/*"]
 }

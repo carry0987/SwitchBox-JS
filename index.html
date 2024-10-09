@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SwitchBox-JS</title>
-    <link href="dist/switchBox.min.css" rel="stylesheet">
+    <link href="dist/theme/switchBox.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="https://carry0987.github.io/favicon.png" type="image/x-icon">
 </head>
 <body>
@@ -32,7 +32,7 @@
     </div>
     <script src="dist/switchBox.min.js"></script>
     <script type="text/javascript">
-    let switchBox1 = new SwitchBox('input[name="switch-1"]', {
+    let switchBox1 = new switchBoxjs.SwitchBox('input[name="switch-1"]', {
         title: 'Switch 1',
         checked: true,
         onUnchecked: function(target) {
@@ -42,15 +42,14 @@
     switchBox1.onChange = (target, checked) => {
         console.log(checked);
     };
-    // console.log(switchBox1);
-    let switchBox2 = new SwitchBox('input[name="switch-2"]', {
+    let switchBox2 = new switchBoxjs.SwitchBox('input[name="switch-2"]', {
         title: 'Switch 2',
         checked: false,
         onChecked: function(target) {
             console.log(target);
         }
     });
-    let switchBox3 = new SwitchBox('#app-2 input', {
+    let switchBox3 = new switchBoxjs.SwitchBox('#app-2 input', {
         bindLabel: false,
         checked: ['switch-3'],
         checkedByValue: [1, '1'],
@@ -65,7 +64,7 @@
         console.log(e.target.checked);
         console.log(ele);
     };
-    let switchBox4 = new SwitchBox('#app-3 input', {
+    let switchBox4 = new switchBoxjs.SwitchBox('#app-3 input', {
         disabled: ['switch-7'],
         styles: {
             '.switch-box': {'padding': '10px;'}
