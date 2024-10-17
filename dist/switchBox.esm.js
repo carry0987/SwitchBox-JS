@@ -312,7 +312,7 @@ const reportInfo = (vars, showType = false) => {
 
 class SwitchBox {
     static instances = [];
-    static version = '2.1.0';
+    static version = '2.1.1';
     static firstLoad = true;
     length = 0;
     options = defaults;
@@ -409,7 +409,7 @@ class SwitchBox {
                     Utils.toggleCheckStatus(ele, true);
                 }
             }
-            if (this.options.checked) {
+            if (this.options.checked !== null) {
                 // Initialize switchbox checked status based on options
                 this.updateSwitchboxCheckedStatus(ele, index);
             }
@@ -424,7 +424,7 @@ class SwitchBox {
                     Utils.toggleDisableStatus(ele, true);
                 }
             }
-            if (this.options.disabled) {
+            if (this.options.disabled !== null) {
                 // Initialize switchbox disabled status based on options
                 this.updateSwitchboxDisabledStatus(ele, index);
             }

@@ -116,7 +116,7 @@ class SwitchBox {
                     Utils.toggleCheckStatus(ele, true);
                 }
             }
-            if (this.options.checked) {
+            if (this.options.checked !== null) {
                 // Initialize switchbox checked status based on options
                 this.updateSwitchboxCheckedStatus(ele, index);
             }
@@ -131,7 +131,7 @@ class SwitchBox {
                     Utils.toggleDisableStatus(ele, true);
                 }
             }
-            if (this.options.disabled) {
+            if (this.options.disabled !== null) {
                 // Initialize switchbox disabled status based on options
                 this.updateSwitchboxDisabledStatus(ele, index);
             }
