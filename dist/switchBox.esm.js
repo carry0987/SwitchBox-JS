@@ -312,7 +312,7 @@ const reportInfo = (vars, showType = false) => {
 
 class SwitchBox {
     static instances = [];
-    static version = '2.1.1';
+    static version = '2.1.2';
     static firstLoad = true;
     length = 0;
     options = defaults;

@@ -1,6 +1,6 @@
 {
   "name": "@carry0987/switch-box",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A library for create switcher via checkbox",
   "type": "module",
   "main": "dist/switchBox.min.js",
@@ -38,22 +38,21 @@
   },
   "homepage": "https://github.com/carry0987/SwitchBox-JS#readme",
   "devDependencies": {
-    "@carry0987/utils": "^3.7.7",
+    "@carry0987/utils": "^3.8.2",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-replace": "^6.0.1",
     "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^12.1.0",
+    "@rollup/plugin-typescript": "^12.1.1",
     "@testing-library/preact": "^3.2.4",
     "happy-dom": "^15.7.4",
-    "preact": "^10.24.2",
+    "preact": "^10.24.3",
     "prettier": "^3.3.3",
     "rollup": "^4.24.0",
-    "rollup-plugin-delete": "^2.1.0",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-tsconfig-paths": "^1.5.2",
-    "sass": "^1.79.4",
-    "tslib": "^2.7.0",
-    "vitest": "^2.1.2"
+    "sass": "^1.80.3",
+    "tslib": "^2.8.0",
+    "vitest": "^2.1.3"
   }
 }

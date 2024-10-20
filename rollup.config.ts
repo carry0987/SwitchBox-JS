@@ -6,7 +6,6 @@ import tsConfigPaths from 'rollup-plugin-tsconfig-paths';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import { dts } from 'rollup-plugin-dts';
 import postcss from 'rollup-plugin-postcss';
-import del from 'rollup-plugin-delete';
 import { createRequire } from 'module';
 import path from 'path';
 
@@ -72,8 +71,7 @@ const dtsConfig: RollupOptions = {
     external: [/\.scss$/u],
     plugins: [
         tsConfigPaths(),
-        dts(),
-        del({ hook: 'buildEnd', targets: ['dist/dts'] })
+        dts()
     ]
 };
 

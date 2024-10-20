@@ -8,8 +8,7 @@
         "strict": true,
         "jsx": "react-jsx",
         "jsxImportSource": "preact",
-        "declaration": true,
-        "declarationDir": "dist/dts/",
+        "outDir": "dist",
         "paths": {
             "@/*": ["./src/*"]
         }
